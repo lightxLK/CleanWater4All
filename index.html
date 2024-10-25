@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDG 6 - Clean Water and Sanitation</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --background-color: #ecf0f1;
+            --text-color: #34495e;
+            --input-background: #fff;
+            --input-border: #bdc3c7;
+            --button-hover: #2980b9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab-button {
+            background-color: transparent;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .tab-button.active,
+        .tab-button:hover {
+            color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+
+        input[type="number"],
+        input[type="file"] {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--input-border);
+            border-radius: 4px;
+            background-color: var(--input-background);
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="number"]:focus,
+        input[type="file"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: var(--button-hover);
+        }
+
+        #prediction-result,
+        #upload-result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: var(--input-background);
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #chart {
+            width: 100%;
+            max-height: 400px;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SDG 6: Clean Water and Sanitation</h1>
+            <nav class="tabs">
+                <button class="tab-button active" data-tab="form">Input Form</button>
+                <button class="tab-button" data-tab="visualization">Data Visualization</button>
+                <button class="tab-button" data-tab="upload">File Upload</button>
+            </nav>
+        </header>
+
+        <main>
+            <section id="form" class="tab-content active">
+                <h2>Water Quality Analysis</h2>
+                <form id="water-quality-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="ph">pH</label>
+                            <input type="number" id="ph" name="ph" required step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="hardness">Hardness</label>
+                            <input type="number" id="hardness" name="hardness" required step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="solids">Solids</label>
+                            <input type="number" id="solids" name="solids" required step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="chloramines">Chloramines</label>
+                            <input type="number" id="chloramines" name="chloramines" required step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="sulfate">Sulfate</label>
+                            <input type="number" id="sulfate" name="sulfate" required step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="conductivity">Conductivity</label>
+                            <input type="number" id="conductivity" name="conductivity" required step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="organic_carbon">Organic Carbon</label>
+                            <input type="number" id="organic_carbon" name="organic_carbon" required step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="trihalomethanes">Trihalomethanes</label>
+                            <input type="number" id="trihalomethanes" name="trihalomethanes" required step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="turbidity">Turbidity</label>
+                            <input type="number" id="turbidity" name="turbidity" required step="0.01">
+                        </div>
+                    </div>
+                    <button type="submit">Predict Water Potability</button>
+                </form>
+                <div id="prediction-result"></div>
+            </section>
+
+            <section id="visualization" class="tab-content">
+                <h2>Data Visualization</h2>
+                <canvas id="chart"></canvas>
+            </section>
+
+            <section id="upload" class="tab-content">
+                <h2>File Upload</h2>
+                <form id="file-upload-form" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="file">Upload CSV File</label>
+                        <input type="file" id="file" name="file" accept=".csv" required>
+                    </div>
+                    <button type="submit">Analyze File</button>
+                </form>
+                <div id="upload-result"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

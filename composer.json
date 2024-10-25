@@ -1,0 +1,5 @@
+{
+    "require": {
+        "ibm/watsonx-ai": "^1.0.0"
+    }
+}
